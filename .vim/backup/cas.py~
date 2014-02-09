@@ -1,0 +1,5 @@
+#!/usr/bin/python2.7
+import pycas
+CAS_SERVER  = "https://auth.ieg.or.at/cas"
+SERVICE_URL = "http://intranet.ieg.or.at"
+status, id, cookie = login(CAS_SERVER, SERVICE_URL)

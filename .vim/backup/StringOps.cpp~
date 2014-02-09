@@ -1,0 +1,93 @@
+#include "StringOps.h"
+#include <iostream>
+#include <iterator>
+
+
+bool StringOps::isCharAStdChar(char c) {
+	if (c >= 'A' && c <= 'Z') return true;
+	if (c >= 'a' && c <= 'z') return true;
+	return false;
+}
+
+bool StringOps::isCharADigit(char c) {
+	if (c == '0') return true;
+	if (c >= '1' && c <= '9') return true;
+	return false;
+}
+
+
+
+void StringOps::AnalyseString(std::string const & Str, size_t & Chars, size_t & Digits, size_t & SpecialChars) {
+	// reset values
+	Chars = 0;
+	Digits = 0;
+	SpecialChars = 0;
+
+	// iterate over string
+	for (std::string::const_iterator iter = Str.begin(); iter < Str.end(); ++iter) {
+		if (isCharAStdChar(*iter)) Chars++;
+		else if (isCharADigit(*iter)) Digits++;
+		else SpecialChars++; // Treat everything that is not a std char or a digit as special char
+	}
+}
+void StringOps::CrackUncPath(std::string const & UncPath, std::string & Hostname, std::string & ShareFolder, std::vector<std::string> & Path, std::string & Filename, std::string & Extension) {
+	size_t static const minStrLen = 2; // minimal stringlength necessary for seperator detection
+	// supported Seperator Types:
+	char static const uncSepLinux = '/';
+	char static const uncSepWindows = '\\';
+
+    //reset param values
+	Hostname.clear();
+	ShareFolder.clear();
+	Path.clear();
+	Filename.clear();
+	Extension.clear();
+
+	if (UncPath.length() < minStrLen) {
+		return; // cannot work with too short string
+	}
+
+	// define seperator
+	char uncSep;
+	if (UncPath[0] == uncSepLinux) uncSep = uncSepLinux;
+	else if (UncPath[0] == uncSepWindows) uncSep = uncSepWindows;
+	else return; // UNC-Path HAS to start with \ or /
+
+	// assure that the 2nd char is also a seperator
+	if (UncPath[1] != uncSep) return;
+
+	// parse string
+	std::vector<std::string> substrings;
+	size_t curIdx = 0;
+	size_t foundIdx = UncPath.find(uncSep);
+	std::string foundElem;
+	while (foundIdx != std::string::npos) {
+		// found an element. add it to the result vector
+		foundElem = UncPath.substr(curIdx, foundIdx - curIdx);
+		if (!foundElem.empty()) substrings.push_back(foundElem);
+		curIdx = foundIdx + 1;
+		foundIdx = UncPath.find(uncSep, curIdx);
+	}
+	// put last element into vector
+	substrings.push_back(UncPath.substr(curIdx, UncPath.length() - curIdx));
+
+	// set output params
+	if (substrings.size() > 0) Hostname		= substrings[0];
+	if (substrings.size() > 1) ShareFolder	= substrings[1];
+	if (substrings.size() <= 2) return; // no path or filename info - we're done
+
+	// process path
+	std::copy(substrings.begin() + 2, substrings.end() - 1, std::back_inserter(Path));
+
+	// process filename and extension
+	std::string fullFilename = *(substrings.end() - 1);
+	size_t foundDot = fullFilename.rfind('.');
+	if (foundDot != std::string::npos) {
+		Filename = fullFilename.substr(0, foundDot);
+		Extension = fullFilename.substr(foundDot+1);
+	} else {
+		Filename = fullFilename;
+	}
+	 
+
+}

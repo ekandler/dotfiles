@@ -1,0 +1,139 @@
+#include <iostream>
+#include <cstdlib>
+#include <intrin.h>
+#include <stdint.h>
+#include "RandomGen.h"
+#include "PrecisionTimer.h" // timer for duration checking
+
+using namespace std;
+
+int const frameWidth = 400;
+int const frameHeight = 16*100;
+int const pixelsPerFrame = frameWidth * frameHeight;
+int const framesPerBlock = 5;
+
+int const MAXVAL = 1000; // maximum value for random values
+
+typedef __declspec(align(16)) unsigned char TPixel;
+typedef TPixel TFrame[pixelsPerFrame];
+typedef TFrame TBlock[framesPerBlock];
+
+// SAD calculation with SSD
+unsigned int SAD_SIMD(TFrame const & frameA, TFrame const & frameB) {
+	__m128i t0, t1; // 2 variables each 128 bit wide
+	__m128i res = _mm_setzero_si128(); // sum in 128 bit
+	int sum = 0;
+	for (int i = 0; i < pixelsPerFrame; i+=16) {
+		// load values
+		t0 = _mm_load_si128((__m128i *)(frameA+i));
+		t1 =  _mm_load_si128((__m128i *)(frameB+i));
+
+		t0 = _mm_sad_epu8(t0, t1); // calc abs difference
+		t1 = _mm_srli_si128(t0, 8); // shift result
+
+		// add lower and higher differences
+		res = _mm_add_epi64(res, t0);
+		res = _mm_add_epi64(res, t1);
+	}
+	sum = _mm_cvtsi128_si32(res); // convert to integer
+	return sum;
+}
+
+
+// SAD calculation without SSE
+unsigned int SAD(TFrame const & frameA, TFrame const & frameB) {
+	unsigned absolute_sum = 0;
+
+	for (int i = 0; i < pixelsPerFrame; ++i) {
+		int rel_sum = frameA[i] - frameB[i];
+		absolute_sum += abs(rel_sum);
+	}
+
+	return absolute_sum;
+
+}
+
+// diff the two blocks without SSE functions
+double SADBlock(TBlock const & blockA, TBlock const & blockB) {
+	cout << "SAD without SIMD: ";
+	volatile unsigned int results[framesPerBlock];
+	
+	CPrecisionTimer timer;
+	timer.Start();
+	for (int i = 0; i < framesPerBlock; ++i) {
+		results[i] = SAD(blockA[i], blockB[i]);
+	}
+	double time = timer.Stop();
+	cout <<  time << endl;
+
+	
+	cout << "SAD-Results: " ;
+	for (int i = 0; i < framesPerBlock; ++i) {
+		cout << results[i] << " ";
+	}
+	
+	cout << endl ;
+
+	return time;
+}
+
+// diff the two blocks with SSE functions
+double SADBlock_SIMD(TBlock const & blockA, TBlock const & blockB) {
+	cout << "SAD with SIMD: ";
+	volatile  unsigned int results[framesPerBlock];
+
+	CPrecisionTimer timer;
+	timer.Start();
+	for (int i = 0; i < framesPerBlock; ++i) {
+		results[i] = SAD_SIMD(blockA[i], blockB[i]);
+	}
+	double time = timer.Stop();
+	cout <<  time << endl;
+
+	cout << "SAD-Results: " ;
+	for (int i = 0; i < framesPerBlock; ++i) {
+		cout << results[i] << " ";
+	}
+	
+	cout << endl ;
+	return time;
+}
+
+void SIMD_Block_CheckProc(TBlock const & blockA, TBlock const & blockB) {
+
+	if (IsProcessorFeaturePresent(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) { // checks if SSE 2 functions are available
+		SADBlock_SIMD(blockA, blockB);
+	} else {
+		SADBlock(blockA, blockB);
+	}
+}
+
+int main() {
+	TBlock blockA, blockB; // the two blocks that should be compared with each other
+
+
+	// Fill with randrom values
+	for (int i = 0; i < framesPerBlock; ++i) {
+		for (int j = 0; j < pixelsPerFrame; ++j) {
+			//// same values
+			//TPixel randPix = rgen::GetRandVal(0, MAXVAL);
+			//blockA[i][j] = randPix;
+			//blockB[i][j] = randPix;
+
+			// different values
+			blockA[i][j] = rgen::GetRandVal(0, MAXVAL);
+			blockB[i][j] = rgen::GetRandVal(0, MAXVAL);
+		}
+	}
+
+	double timeStd, timeSIMD;
+
+	timeStd = SADBlock(blockA, blockB);
+	timeSIMD = SADBlock_SIMD(blockA, blockB);
+	cout << endl << "Speedup: " << timeStd/timeSIMD << endl;
+
+
+	cout << endl << "Test processor support and call appropriate function:" << endl;
+	SIMD_Block_CheckProc(blockA, blockB);
+	return 0;
+}

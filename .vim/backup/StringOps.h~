@@ -1,0 +1,48 @@
+#ifndef STRINGOPS_H_
+#define STRINGOPS_H_
+#include <string>
+#include <vector>
+
+
+class StringOps {
+private:
+    /**
+     * Helper function. returns wheter the given char is a standard character or not
+     * */
+	bool isCharAStdChar(char c);
+
+    /**
+     * Helper function. returns wheter the given char is a digit or not
+     * */
+	bool isCharADigit(char c);
+public: 
+
+    /**
+     * Analyses the given strings and sets the amount of characters digits and special characters
+     * every char, that is not std char (a-zA-Z) or digit (0-9) is treated as special char
+     * (e.g. umlauts or blanks)
+     * @param Str defines the string that should be analyzed
+     * @param Chars returns the number of standard characters
+     * @param Digits returns the amount of digits in Str
+     * @param SpecialChars returns the amount of all the ohter (=special) characters
+     */
+    void AnalyseString(std::string const & Str, size_t & Chars, size_t & Digits, size_t & SpecialChars);
+
+    /**
+     * Splits a given UncPath into its components
+     * the first two chars (// or \\) define the seperator (Linux or Windows-Style UncPath)
+     * If an invalid UncPath has been entered, the parameters will be returned emtpy
+     * If an error occurs during the parsing process, the parameters that could be parsed, will be returned, The others stay empty.
+     * @param UncPath InputString
+     * @param Hostname the first element of the uncPath
+     * @param ShareFolder the second element
+     * @param Path all elements between ShareFolder and Filename (or an empty vector)
+     * @param Filename the last element of the UncPath (without file Extension - if existing)
+     * @param Extenstion the file Extension of the file
+     */
+    void CrackUncPath(std::string const & UncPath, std::string & Hostname, std::string & ShareFolder, std::vector<std::string> & Path, std::string & Filename, std::string & Extension);
+
+};
+
+
+#endif

@@ -1,0 +1,40 @@
+table {
+    border: 1px solid black;
+}
+
+th {
+    text-decoration: bold;
+}
+
+td, th {
+    border: 1px dashed black;
+}
+
+.time {
+    white-space: nowrap;
+}
+
+.photo {
+    background-color: lightgreen;
+}
+
+.status {
+    background-color: lightgrey;
+}
+
+.comment { 
+    background-color: #eee;
+    font-size: small;
+}
+
+.comment td:first-child {
+    padding-left: 15px;
+}
+
+.video {
+    background-color: lightblue;
+}
+
+.link {
+    background-color: lightyellow;
+}
