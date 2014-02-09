@@ -209,4 +209,5 @@ let g:Tex_ViewRule_pdf = 'evince'
 "let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
 " General AND specific autocompletion
-Bundle "Valloric/YouCompleteMe"
+" ..maybe use something else...
+"Bundle "Valloric/YouCompleteMe"
