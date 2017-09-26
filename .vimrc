@@ -90,11 +90,11 @@ set backupdir=~/.vim/backup/
     " i like about 80 character width lines
     "set textwidth=78
     " Set 52 lines for the display
-    set lines=52
+    "set lines=52
     " 2 for the status line.
-    set cmdheight=2
+    "set cmdheight=2
     " add columns for the Project plugin
-    set columns=110
+    "set columns=110
     " enable use of mouse
     set mouse=a
     " for the TOhtml command
@@ -134,6 +134,11 @@ autocmd BufEnter * silent! lcd %:p:h
 """"""""""""""" Bundles """"""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""
 
+
+" vhdl indention
+Bundle "file:///home/erwin/.vim/svnbundle/vim-vhdl"
+
+
 " Airline
 Bundle 'bling/vim-airline'
 set laststatus=2
@@ -167,7 +172,7 @@ Bundle 'kien/ctrlp.vim'
 nmap <C-f> :CtrlPMRUFiles<CR>
 
 " Taglist
-Bundle 'vim-scripts/taglist.vim'
+"Bundle 'vim-scripts/taglist.vim'
 
 " Minibufexplorer
 Bundle 'minibufexpl.vim'
@@ -176,8 +181,31 @@ Bundle 'minibufexpl.vim'
 "Bundle 'Pydiction'
 "let g:pydiction_location='~/.vim/bundle/Pydiction/complete-dict'
 
+"python clomplete
+Bundle "davidhalter/jedi-vim.git"
+
 " snipmate
-Bundle 'snipMate'
+"Bundle 'snipMate'
+" Bundle "MarcWeber/vim-addon-mw-utils"
+" Bundle "tomtom/tlib_vim"
+" Bundle "garbas/vim-snipmate"
+" Bundle "darkwind-mt/snipmate-snippets"
+
+Bundle 'Shougo/neocomplcache.git' 
+Bundle 'Shougo/neosnippet.git'
+
+" Plugin key-mappings. 
+imap <C-k>     <Plug>(neosnippet_expand_or_jump) 
+smap <C-k>     <Plug>(neosnippet_expand_or_jump) 
+
+" SuperTab like snippets behavior. 
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>" 
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>" 
+
+" For snippet_complete marker. 
+if has('conceal') 
+  set conceallevel=2 concealcursor=i 
+endif
 
 " OmniCppComplete
 "Bundle 'OmniCppComplete'
@@ -211,3 +239,10 @@ let g:Tex_ViewRule_pdf = 'evince'
 " General AND specific autocompletion
 " ..maybe use something else...
 "Bundle "Valloric/YouCompleteMe"
+
+
+
+Bundle "vim-scripts/verilog_systemverilog.vim"
+au BufRead,BufNewFile *.sv setfiletype verilog_systemverilog
+
+Bundle "Kocha/vim-systemc"
