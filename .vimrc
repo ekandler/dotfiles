@@ -1,12 +1,14 @@
 set nocompatible              " be iMproved
 filetype off                  " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
 
 " Turn on syntax highlighting
@@ -136,31 +138,24 @@ autocmd BufEnter * silent! lcd %:p:h
 
 
 " vhdl indention
-Bundle "file:///home/erwin/.vim/svnbundle/vim-vhdl"
+"Plugin "file:///home/erwin/.vim/svnbundle/vim-vhdl"
 
 
 " Airline
-Bundle 'bling/vim-airline'
-set laststatus=2
-set encoding=utf-8
-let g:airline_powerline_fonts = 1
-let g:airline_theme="solarized"
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 
 " solarized theme
-Bundle 'altercation/vim-colors-solarized'
-colorscheme solarized
-set background=dark
-"for solarized
-call togglebg#map("<C-F5>")
+Plugin 'altercation/vim-colors-solarized'
 
 "Syntax highlight for mako
-Bundle 'mako.vim'
+Plugin 'mako.vim'
 au BufRead *.mako set filetype=mako
 
 " Doxygen highlighting and generation
 let g:load_doxygen_syntax=1
-Bundle 'DoxygenToolkit.vim'
+Plugin 'DoxygenToolkit.vim'
 let g:DoxygenToolkit_briefTag_pre="@brief  " 
 let g:DoxygenToolkit_paramTag_pre="@param " 
 let g:DoxygenToolkit_returnTag="@returns   " 
@@ -168,31 +163,31 @@ let g:DoxygenToolkit_blockHeader="----------------------------------------------
 let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
 
 " CtrlP - fuzzy file matching
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 nmap <C-f> :CtrlPMRUFiles<CR>
 
 " Taglist
-"Bundle 'vim-scripts/taglist.vim'
+"Plugin 'vim-scripts/taglist.vim'
 
 " Minibufexplorer
-Bundle 'minibufexpl.vim'
+Plugin 'minibufexpl.vim'
 
 " python dict
-"Bundle 'Pydiction'
+"Plugin 'Pydiction'
 "let g:pydiction_location='~/.vim/bundle/Pydiction/complete-dict'
 
 "python clomplete
-Bundle "davidhalter/jedi-vim.git"
+Plugin 'davidhalter/jedi-vim.git'
 
 " snipmate
-"Bundle 'snipMate'
-" Bundle "MarcWeber/vim-addon-mw-utils"
-" Bundle "tomtom/tlib_vim"
-" Bundle "garbas/vim-snipmate"
-" Bundle "darkwind-mt/snipmate-snippets"
+"Plugin 'snipMate'
+" Plugin "MarcWeber/vim-addon-mw-utils"
+" Plugin "tomtom/tlib_vim"
+" Plugin "garbas/vim-snipmate"
+" Plugin "darkwind-mt/snipmate-snippets"
 
-Bundle 'Shougo/neocomplcache.git' 
-Bundle 'Shougo/neosnippet.git'
+Plugin 'Shougo/neocomplcache.git' 
+Plugin 'Shougo/neosnippet.git'
 
 " Plugin key-mappings. 
 imap <C-k>     <Plug>(neosnippet_expand_or_jump) 
@@ -208,22 +203,22 @@ if has('conceal')
 endif
 
 " OmniCppComplete
-"Bundle 'OmniCppComplete'
+"Plugin 'OmniCppComplete'
 
 " Latex suite
-Bundle 'LaTeX-Suite-aka-Vim-LaTeX'
-let g:Tex_Folding=0 " disable folding
-set grepprg=grep\ -nH\ $*  " enable completion
-au BufEnter *.tex set autowrite
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats = 'pdf'
-let g:Tex_CompileRule_pdf = 'pdflatex -interaction=nonstopmode $*'
-let g:Tex_GotoError = 0
-let g:Tex_ViewRule_pdf = 'evince'
+"Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
+"let g:Tex_Folding=0 " disable folding
+"set grepprg=grep\ -nH\ $*  " enable completion
+"au BufEnter *.tex set autowrite
+"let g:Tex_DefaultTargetFormat = 'pdf'
+"let g:Tex_MultipleCompileFormats = 'pdf'
+"let g:Tex_CompileRule_pdf = 'pdflatex -interaction=nonstopmode $*'
+"let g:Tex_GotoError = 0
+"let g:Tex_ViewRule_pdf = 'evince'
 
 
 " general autocompletion
-"Bundle "neocomplcache"
+"Plugin "neocomplcache"
 "" Use neocomplcache. 
 "let g:neocomplcache_enable_at_startup = 1 
 "" Use smartcase. 
@@ -238,11 +233,40 @@ let g:Tex_ViewRule_pdf = 'evince'
 
 " General AND specific autocompletion
 " ..maybe use something else...
-"Bundle "Valloric/YouCompleteMe"
+"Plugin "Valloric/YouCompleteMe"
 
 
 
-Bundle "vim-scripts/verilog_systemverilog.vim"
-au BufRead,BufNewFile *.sv setfiletype verilog_systemverilog
+"Plugin "vim-scripts/verilog_systemverilog.vim"
+"au BufRead,BufNewFile *.sv setfiletype verilog_systemverilog
 
-Bundle "Kocha/vim-systemc"
+"Plugin "Kocha/vim-systemc"
+
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+"for airline
+set laststatus=2
+set encoding=utf-8
+let g:airline_powerline_fonts = 1
+let g:airline_theme="solarized"
+
+"for solarized
+colorscheme solarized
+set background=dark
+call togglebg#map("<C-F5>")
