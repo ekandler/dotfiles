@@ -6,8 +6,17 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="powerlevel9k"
 
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  ZSH_THEME="bira"
+else
+  ZSH_THEME="powerlevel9k"
+fi
+
+if [[ "$TERM" == "linux" ]]; then
+  ZSH_THEME="af-magic"
+fi
 
 POWERLEVEL9K_MODE='nerdfont-complete'
 
@@ -76,28 +85,49 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 DEFAULT_USER=erwin
 
-alias hgb="cd ~/work/Hagenberg"
-alias esd1="cd ~/work/Hagenberg/ESD1"
-alias esd2="cd ~/work/Hagenberg/ESD2"
-alias esd3="cd ~/work/Hagenberg/ESD3"
-alias esd4="cd ~/work/Hagenberg/ESD4"
-alias hsd1="cd ~/work/Hagenberg/HSD1"
-alias hsd2="cd ~/work/Hagenberg/HSD2"
-alias hsd3="cd ~/work/Hagenberg/HSD3"
-alias hsd4="cd ~/work/Hagenberg/HSD4"
-alias hsd5="cd ~/work/Hagenberg/HSD5"
-alias hsd6="cd ~/work/Hagenberg/HSD6"
-alias w0="cd ~/work"
-alias w15="cd ~/work/2015"
-alias w16="cd ~/work/2016"
-alias w17="cd ~/work/2017"
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+if [ -d ~/work ]; then
+    alias w0="cd ~/work"
+    alias w15="cd ~/work/2015"
+    alias w16="cd ~/work/2016"
+    alias w17="cd ~/work/2017"
+fi
+
+if [ -d ~/work/Hagenberg ]; then
+    alias hgb="cd ~/work/Hagenberg"
+    alias esd1="cd ~/work/Hagenberg/ESD1"
+    alias esd2="cd ~/work/Hagenberg/ESD2"
+    alias esd3="cd ~/work/Hagenberg/ESD3"
+    alias esd4="cd ~/work/Hagenberg/ESD4"
+    alias hsd1="cd ~/work/Hagenberg/HSD1"
+    alias hsd2="cd ~/work/Hagenberg/HSD2"
+    alias hsd3="cd ~/work/Hagenberg/HSD3"
+    alias hsd4="cd ~/work/Hagenberg/HSD4"
+    alias hsd5="cd ~/work/Hagenberg/HSD5"
+    alias hsd6="cd ~/work/Hagenberg/HSD6"
+fi
+
+if [ -f ~/.zshrc.gf ]; then
+    source ~/.zshrc.gf
+fi
+
+if [ -f /usr/bin/trash ]; then
+    alias rm='trash'
+fi
+
+alias tailf='tail -f'
 alias reload="source ~/.zshrc"
 alias o="xdg-open $1"
 
 # thefuck corr
-eval $(thefuck --alias)
+eval "$(thefuck --alias wtf)"
 
 # powerlevel icons
-POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
-POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
+
+if [ ! -n "$SSH_CLIENT" ] && [ ! -n "$SSH_TTY" ] && [[ "$TERM" != "linux" ]]; then
+    POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
+    POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
+fi
