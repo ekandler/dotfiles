@@ -131,3 +131,6 @@ if [ ! -n "$SSH_CLIENT" ] && [ ! -n "$SSH_TTY" ] && [[ "$TERM" != "linux" ]]; th
     POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
     POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
 fi
+
+# Colorize stderr to red
+exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
