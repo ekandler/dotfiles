@@ -131,3 +131,8 @@ if [ ! -n "$SSH_CLIENT" ] && [ ! -n "$SSH_TTY" ] && [[ "$TERM" != "linux" ]]; th
     POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
     POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
 fi
+
+LIBSTDERREDPATH="/usr/local/lib/libstderred.so"
+if [ -f $LIBSTDERREDPATH ]; then
+    export LD_PRELOAD="$LIBSTDERREDPATH${LD_PRELOAD:+:$LD_PRELOAD}"
+fi
