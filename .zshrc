@@ -136,3 +136,8 @@ LIBSTDERREDPATH="/usr/local/lib/libstderred.so"
 if [ -f $LIBSTDERREDPATH ]; then
     export LD_PRELOAD="$LIBSTDERREDPATH${LD_PRELOAD:+:$LD_PRELOAD}"
 fi
+
+# useful functions
+if [ -f $ZSH_CUSTOM/functions.zsh ]; then
+    source $ZSH_CUSTOM/functions.zsh
+fi
