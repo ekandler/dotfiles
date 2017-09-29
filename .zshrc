@@ -134,3 +134,6 @@ fi
 
 # Colorize stderr to red
 exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
+
+# Own history for each zsh session
+setopt APPEND_HISTORY
