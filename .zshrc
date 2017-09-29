@@ -132,8 +132,15 @@ if [ ! -n "$SSH_CLIENT" ] && [ ! -n "$SSH_TTY" ] && [[ "$TERM" != "linux" ]]; th
     POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
 fi
 
-# Colorize stderr to red
-exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
-
 # Own history for each zsh session
 setopt APPEND_HISTORY
+
+LIBSTDERREDPATH="/usr/local/lib/libstderred.so"
+if [ -f $LIBSTDERREDPATH ]; then
+    export LD_PRELOAD="$LIBSTDERREDPATH${LD_PRELOAD:+:$LD_PRELOAD}"
+fi
+
+# useful functions
+if [ -f $ZSH_CUSTOM/functions.zsh ]; then
+    source $ZSH_CUSTOM/functions.zsh
+fi
