@@ -1,7 +1,5 @@
-[user]
-	email = e.kandler@gmail.com
-	name = Erwin Kandler
-	signingkey = 01F4EA0D300C74942E4A7BF9DD699F9FFF10192C
+[include]
+    path = user.gitconfig
 [alias]
 	co = checkout
 	br = branch
