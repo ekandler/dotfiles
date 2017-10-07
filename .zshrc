@@ -134,6 +134,8 @@ fi
 
 # Own history for each zsh session
 setopt APPEND_HISTORY
+unsetopt INC_APPEND_HISTORY
+unsetopt SHARE_HISTORY
 
 LIBSTDERREDPATH="/usr/local/lib/libstderred.so"
 if [ -f $LIBSTDERREDPATH ]; then
