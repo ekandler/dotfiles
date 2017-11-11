@@ -1,3 +1,13 @@
+function setTmuxAutostartOnce() {
+    # Autostart tmux - if installed, but allow non-tmux shells
+    \tmux list-sessions > /dev/null 2> /dev/null
+    TMUX_RUNNING=$?
+    if [[ TMUX_RUNNING -ne 0 ]]; then
+        ZSH_TMUX_AUTOSTART=true
+        ZSH_TMUX_AUTOCONNECT=true
+    fi
+}
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
@@ -12,6 +22,7 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
   ZSH_THEME="bira"
 else
   ZSH_THEME="powerlevel9k"
+  setTmuxAutostartOnce
 fi
 
 if [[ "$TERM" == "linux" ]]; then
@@ -78,7 +89,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras sudo systemd web-search svn ubuntu zsh-syntax-highlighting gpg-agent command-not-found common-aliases cp dirhistory)
+plugins=(git git-extras sudo systemd web-search svn ubuntu zsh-syntax-highlighting gpg-agent command-not-found common-aliases cp dirhistory tmux)
 
 source $ZSH/oh-my-zsh.sh
 
