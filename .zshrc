@@ -1,5 +1,7 @@
+#!/bin/zsh
+
+# Autostart tmux - if installed, but allow non-tmux shells
 function setTmuxAutostartOnce() {
-    # Autostart tmux - if installed, but allow non-tmux shells
     \tmux list-sessions > /dev/null 2> /dev/null
     TMUX_RUNNING=$?
     if [[ TMUX_RUNNING -ne 0 ]]; then
@@ -17,7 +19,7 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 
-
+# When connected from ssh, don't start with powerline font based themes
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
   ZSH_THEME="bira"
 else
@@ -25,6 +27,7 @@ else
   setTmuxAutostartOnce
 fi
 
+# Use a really basic theme when connecting via tty
 if [[ "$TERM" == "linux" ]]; then
   ZSH_THEME="af-magic"
 fi
@@ -148,6 +151,7 @@ setopt APPEND_HISTORY
 unsetopt INC_APPEND_HISTORY
 unsetopt SHARE_HISTORY
 
+# Needs stdeered from https://github.com/sickill/stderred
 LIBSTDERREDPATH="/usr/local/lib/libstderred.so"
 if [ -f $LIBSTDERREDPATH ]; then
     export LD_PRELOAD="$LIBSTDERREDPATH${LD_PRELOAD:+:$LD_PRELOAD}"

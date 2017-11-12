@@ -253,6 +253,7 @@ tmux_conf_copy_to_os_clipboard=true
 
 # start with mouse mode enabled
 set -g mouse on
+setw -g mode-keys vi
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
@@ -268,3 +269,4 @@ set -g mouse on
 
 # move status line to top
 #set -g status-position top
+#
