@@ -270,3 +270,6 @@ setw -g mode-keys vi
 # move status line to top
 #set -g status-position top
 #
+
+bind , command-prompt -p (rename-window) "if-shell \"test -z \\\"%1\\\"\" \"set-option allow-rename on\" \"rename-window '%%%' ; set-option allow-rename off\""
+#bind , command-prompt -p (rename-window) "rename-window '%%' ; set-option allow-rename off"

@@ -1,4 +1,22 @@
 #!/usr/bin/env zsh
+# Autostart tmux - if installed, but allow non-tmux shells
+function setTmuxAutostartOnce() {
+    #\tmux list-sessions > /dev/null 2> /dev/null # doesn't work when using sudo -s
+    ps -a | grep tmux > /dev/null 2> /dev/null
+    TMUX_RUNNING=$?
+    if [[ TMUX_RUNNING -ne 0 ]]; then
+        ZSH_TMUX_AUTOSTART=true
+        ZSH_TMUX_AUTOCONNECT=true
+    fi
+}
+
+#from https://superuser.com/a/39995
+function pathadd() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$1"
+    fi
+}
+
 #from https://github.com/mathiasbynens/dotfiles/.functions
 
 # Create a new directory and enter it

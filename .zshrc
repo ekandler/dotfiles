@@ -1,18 +1,12 @@
 #!/bin/zsh
-
-# Autostart tmux - if installed, but allow non-tmux shells
-function setTmuxAutostartOnce() {
-    \tmux list-sessions > /dev/null 2> /dev/null
-    TMUX_RUNNING=$?
-    if [[ TMUX_RUNNING -ne 0 ]]; then
-        ZSH_TMUX_AUTOSTART=true
-        ZSH_TMUX_AUTOCONNECT=true
-    fi
-}
-
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
+
+# useful functions
+if [ -f $ZSH_CUSTOM/functions.zsh ]; then
+    source $ZSH_CUSTOM/functions.zsh
+fi
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -128,6 +122,9 @@ if [ -f ~/.zshrc.gf ]; then
     source ~/.zshrc.gf
 fi
 
+if [ -f ~/.zshrc.pv ]; then
+    source ~/.zshrc.pv
+fi
 if [ -f /usr/bin/trash ]; then
     alias rm='trash'
 fi
@@ -157,7 +154,5 @@ if [ -f $LIBSTDERREDPATH ]; then
     export LD_PRELOAD="$LIBSTDERREDPATH${LD_PRELOAD:+:$LD_PRELOAD}"
 fi
 
-# useful functions
-if [ -f $ZSH_CUSTOM/functions.zsh ]; then
-    source $ZSH_CUSTOM/functions.zsh
-fi
+# add snap-bin to path
+pathadd "/snap/bin"
