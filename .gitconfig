@@ -196,3 +196,7 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+
+[user]
+
+	email = ekandler@users.noreply.github.com
