@@ -102,6 +102,7 @@ if [ -d ~/work ]; then
     alias w15="cd ~/work/2015"
     alias w16="cd ~/work/2016"
     alias w17="cd ~/work/2017"
+    alias w18="cd ~/work/2018"
 fi
 
 if [ -d ~/work/Hagenberg ]; then
