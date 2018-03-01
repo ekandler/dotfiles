@@ -156,3 +156,4 @@ fi
 
 # add snap-bin to path
 pathadd "/snap/bin"
+pathadd "$HOME/bin"
