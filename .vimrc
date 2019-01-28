@@ -123,6 +123,8 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " display printed keys
 set showcmd
 
+" use system clipboard
+set clipboard=unnamedplus
 
 "if !has('gui_running')
 "	colorscheme default
@@ -242,6 +244,8 @@ endif
 
 "Plugin "Kocha/vim-systemc"
 
+Plugin 'martinda/Jenkinsfile-vim-syntax'
+autocmd BufNewFile,BufRead *Jenkinsfile* set syntax=Jenkinsfile
 
 
 " All of your Plugins must be added before the following line
