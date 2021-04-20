@@ -104,6 +104,8 @@ if [ -d ~/work ]; then
     alias w17="cd ~/work/2017"
     alias w18="cd ~/work/2018"
     alias w19="cd ~/work/2019"
+    alias w20="cd ~/work/2020"
+    alias w21="cd ~/work/2021"
 fi
 
 if [ -d ~/work/Hagenberg ]; then
@@ -159,3 +161,4 @@ fi
 # add snap-bin to path
 pathadd "/snap/bin"
 pathadd "$HOME/bin"
+

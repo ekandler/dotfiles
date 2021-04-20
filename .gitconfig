@@ -146,6 +146,7 @@
 
 	# Detect copies as well as renames
 	renames = copies
+	tool = meld
 
 [diff "bin"]
 
@@ -161,6 +162,7 @@
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	tool = meld
 
 [push]
 
@@ -192,3 +194,5 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+[cola]
+	spellcheck = false
