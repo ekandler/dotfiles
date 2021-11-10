@@ -204,6 +204,7 @@ fi
 # add snap-bin to path
 pathadd "/snap/bin"
 pathadd "$HOME/bin"
+pathadd "$HOME/ghar/bin"
 
 # set vim as default editor
 export EDITOR='vim'
