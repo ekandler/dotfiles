@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/erwin/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
@@ -149,6 +149,8 @@ if [ -d ~/work ]; then
     alias w19="cd ~/work/2019"
     alias w20="cd ~/work/2020"
     alias w21="cd ~/work/2021"
+    alias w22="cd ~/work/2022"
+    alias w23="cd ~/work/2023"
 fi
 
 if [ -d ~/work/Hagenberg ]; then
@@ -179,6 +181,12 @@ fi
 alias tailf='tail -f'
 alias reload="source ~/.zshrc"
 alias o="xdg-open $1"
+alias gitchangelog='git log $(git describe --abbrev=0 --tags $(git describe --abbrev=0)^)...$(git describe --abbrev=0)'
+
+gitcontains() {
+echo "BEFORE: $(git describe --tags $1)"
+echo "AFTER: $(git describe --tags --contains $1)"
+}
 
 # thefuck corr
 eval "$(thefuck --alias wtf)"
@@ -206,6 +214,12 @@ pathadd "/snap/bin"
 pathadd "$HOME/bin"
 pathadd "$HOME/ghar/bin"
 
+# go path
+pathadd "$HOME/go/bin"
+
 # set vim as default editor
 export EDITOR='vim'
 export VISUAL='vim'
+
+#disable autocomplete for hosts
+zstyle ':completion:*:ssh:*' hosts off
